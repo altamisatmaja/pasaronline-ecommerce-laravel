@@ -31,7 +31,7 @@ class CategoryController extends Controller
             $request->session()->flash('success', 'Category berhasil ditambahkan');
 
             return response()->json([
-                'status' => false,
+                'status' => true,
                 'message' => 'Category berhasil ditambahkan'
             ]);
         } else {

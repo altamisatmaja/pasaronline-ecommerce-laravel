@@ -4,6 +4,10 @@ use App\Http\Controllers\admin\AdminLoginController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\HomeController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -42,12 +46,11 @@ Route::group(['prefix' => 'admin'], function(){
             $slug = '';
             if(!empty($request->title)) {
                 $slug = Str::slug($request->title);
-            } else {
-                return response()->json([
-                    'status' => true,
-                    'slug' => $slug,
-                ]);
-            }
-        })->name('getSlug') ;
+            } 
+            return response()->json([
+                'status' => true,
+                'slug' => $slug,
+            ]);
+        })->name('getSlug');
     });
 });
