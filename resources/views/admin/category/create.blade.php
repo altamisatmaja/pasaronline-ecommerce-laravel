@@ -72,9 +72,10 @@
                 data: element.serializeArray(),
                 dataType: 'json',
                 success: function(response) {
-
-                }, error: function(jqXHR, exception) {
-                    console.log("Ada yg salah")
+                    console.log("Data disimpan");
+                },
+                error: function(jqXHR, exception) {
+                    console.log("Ada yg salah", exception);
                 }
             })
         });
