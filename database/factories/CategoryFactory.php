@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Fake;
 
 class CategoryFactory extends Factory
 {
@@ -14,7 +15,9 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->name(),
+            'status' => rand(0,1),
+            'slug' => $this->faker->name()
         ];
     }
 }
