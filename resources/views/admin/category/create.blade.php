@@ -68,13 +68,14 @@
             event.preventDefault();
 
             var element = $(this);
+            $("button[type=submit]").prop('disabled', true);
             $.ajax({
                 url: '{{ route('categories.store') }}',
                 type: 'post',
                 data: element.serializeArray(),
                 dataType: 'json',
                 success: function(response) {
-
+                    $("button[type=submit]").prop('disabled', false);
                     if (response['status'] == true) {
                         $("#name").removeClass('is-invalid').siblings('p').removeClass(
                                 'invalid-feedback')
@@ -83,6 +84,8 @@
                         $("#slug").removeClass('is-invalid').siblings('p').removeClass(
                                 'invalid-feedback')
                             .html("");
+
+                        window.location.href = '{{ route('categories.index') }}';
                     } else {
                         var errors = response['errors'];
                         if (errors['name']) {
@@ -112,18 +115,22 @@
             })
         });
 
-        $("#name").change(function(){
+        $("#name").change(function() {
             var element = $(this);
+            $("button[type=submit]").prop('disabled', true);
             $.ajax({
-                    url: '{{ route('getSlug') }}',
-                    type: 'get',
-                    data: {title: element.val()},
-                    dataType: 'json',
-                    success: function(response){
-                        if(response["status"] == true) {
-                            $("#slug").val(response["slug"]);
-                        }
+                url: '{{ route('getSlug') }}',
+                type: 'get',
+                data: {
+                    title: element.val()
+                },
+                dataType: 'json',
+                success: function(response) {
+                    $("button[type=submit]").prop('disabled', false);
+                    if (response["status"] == true) {
+                        $("#slug").val(response["slug"]);
                     }
+                }
             });
         })
     </script>

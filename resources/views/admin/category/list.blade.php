@@ -3,21 +3,6 @@
 @section('content')
     <!DOCTYPE html>
     <html lang="en">
-
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Laravel Shop :: Administrative Panel</title>
-        <!-- Google Font: Source Sans Pro -->
-        <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-        <!-- Theme style -->
-        <link rel="stylesheet" href="css/adminlte.min.css">
-        <link rel="stylesheet" href="css/custom.css">
-    </head>
-
     <body class="hold-transition sidebar-mini">
         <!-- Site wrapper -->
         <div class="wrapper">
@@ -40,21 +25,28 @@
             <section class="content">
                 <!-- Default box -->
                 <div class="container-fluid">
+                    @include('admin.message')
                     <div class="card">
-                        <div class="card-header">
-                            <div class="card-tools">
-                                <div class="input-group input-group" style="width: 250px;">
-                                    <input type="text" name="table_search" class="form-control float-right"
-                                        placeholder="Search">
+                        <form action="" method="get">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <button type="button" onclick="window.location.href='{{ route('categories.index') }}'"
+                                        class="btn btn-default btn-sm">Reset</button>
+                                </div>
+                                <div class="card-tools">
+                                    <div class="input-group input-group" style="width: 250px;">
+                                        <input value="{{ Request::get('keyword') }}" type="text" name="keyword"
+                                            class="form-control float-right" placeholder="Search">
 
-                                    <div class="input-group-append">
-                                        <button type="submit" class="btn btn-default">
-                                            <i class="fas fa-search"></i>
-                                        </button>
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-default">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                         <div class="card-body table-responsive p-0">
                             <table class="table table-hover text-nowrap">
                                 <thead>
@@ -116,9 +108,9 @@
                                             </tr>
                                         @endforeach
                                     @else
-                                    <tr>
-                                        <td colspan="5">Data tidak tersedia</td>
-                                    </tr>
+                                        <tr>
+                                            <td colspan="5">Data tidak tersedia</td>
+                                        </tr>
                                     @endif
                                 </tbody>
                             </table>
