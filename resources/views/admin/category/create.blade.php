@@ -41,6 +41,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
+                                    <input type="hidden" name="image_id" id="image_id">
                                     <label for="image">Image</label>
                                     <div id="image" class="dropzone dz-clickable">
                                         <div class="dz-message needsclick">    
