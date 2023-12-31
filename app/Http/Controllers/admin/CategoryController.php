@@ -44,8 +44,11 @@ class CategoryController extends Controller
 
                 $newImageName = $category->id.'.'.$ext;
                 $sPath = public_path().'/temp/'.$tempImage->name;
-                $dPath = public_path().'/uploads/category/thumb/'.$newImageName;
+                $dPath = public_path().'/uploads/category/'.$newImageName;
                 File::copy($sPath, $dPath);
+
+                $category->image = $newImageName;
+                $category->save();
             }
 
             $request->session()->flash('success', 'Category berhasil ditambahkan');
