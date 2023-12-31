@@ -14,16 +14,16 @@ class AdminAuthenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        if (! $request->expectsJson()) {
+        if (!$request->expectsJson()) {
             return route('admin.login');
         }
     }
 
     protected function authenticate($request, array $guards)
     {
-            if ($this->auth->guard('admin')->check()) {
-                return $this->auth->shouldUse('admin');
-            }
+        if ($this->auth->guard('admin')->check()) {
+            return $this->auth->shouldUse('admin');
+        }
         $this->unauthenticated($request, ['admin']);
     }
 }
