@@ -73,8 +73,14 @@ class CategoryController extends Controller
         }
     }
 
-    public function edit(){
+    public function edit($categoryId, Request $request){
+        // echo $categoryId;
+        $category = Category::find($categoryId);
+        if(empty($category)) {
+            return redirect()->route('categories.index');
+        }
 
+        return view('admin.category.edit', compact('category'));
     }
     public function update(){
 
