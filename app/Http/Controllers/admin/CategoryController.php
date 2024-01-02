@@ -88,6 +88,7 @@ class CategoryController extends Controller
     public function update($categoryId, Request $request){
         $category = Category::find($categoryId);
         if(empty($category)) {
+            $request->session()->flash('error', 'Category tidak ditemukan');
             return response()->json([
                 'status' => false,
                 'notFound' => true,
@@ -154,8 +155,14 @@ class CategoryController extends Controller
     }
     public function destroy($categoryId, Request $request){
         $category = Category::find($categoryId);
+
         if(empty($category)) {
-            return redirect()->route('categories.index');
+            // return redirect()->route('categories.index');
+            $request->session()->flash('error', 'Kategori tidak ditemukan');
+            return response()->json([
+                'status' => true,
+                'message' => 'Category tidak ditemukan'
+            ]);
         }
 
         // $category

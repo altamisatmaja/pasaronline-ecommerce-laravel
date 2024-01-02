@@ -103,6 +103,10 @@
 
                         window.location.href = '{{ route('categories.index') }}';
                     } else {
+                        if(response['notFound'] == true) {
+                            window.location.href='{{ route('categories.index') }}';
+                        }
+
                         var errors = response['errors'];
                         if (errors['name']) {
                             $("#name").addClass('is-invalid').siblings('p').addClass('invalid-feedback')
