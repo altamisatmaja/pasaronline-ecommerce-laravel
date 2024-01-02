@@ -162,9 +162,9 @@ class CategoryController extends Controller
         File::delete(public_path().'/uploads/category/thumb/'.$category->image);
         File::delete(public_path().'/uploads/category/'.$category->image);
 
+        $category->delete();
         $request->session()->flash('success', 'Category berhasil dihapus');
 
-        $category()->delete();
         return response()->json([
             'status' => true,
             'message' => 'Category berhasil dihapus'

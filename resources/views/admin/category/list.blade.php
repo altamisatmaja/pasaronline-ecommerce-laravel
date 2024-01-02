@@ -146,22 +146,26 @@
         function deleteCategory(id) {
             var url = '{{ route("categories.delete", "ID") }}';
             var newUrl = url.replace("ID", id);
-            alert(newUrl);
-            return false;
-            $.ajax({
-                url: '{{ route('categories.update', $category->id) }}',
-                type: 'put',
-                data: element.serializeArray(),
+            // alert(newUrl);
+            if (confirm("Sungguhkah untuk menghapus kategori?")) {
+                $.ajax({
+                url: newUrl,
+                type: 'delete',
+                data: {},
                 dataType: 'json',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 success: function(response) {
                     $("button[type=submit]").prop('disabled', false);
-                    if (response['status'] == true) {
+                    if (response['status']) {
                         window.location.href = '{{ route('categories.index') }}';
                     } else {
-                        console.log('mantap');
+                        console.log('gagal menghapus');
                     }
                 }
             })
+            }
         }
     </script>
 @endsection
