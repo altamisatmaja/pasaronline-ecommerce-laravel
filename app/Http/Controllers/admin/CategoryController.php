@@ -51,7 +51,10 @@ class CategoryController extends Controller
                 // generate image thumbanil
                 $dPath = public_path().'/uploads/category/thumb/'.$newImageName;
                 $img = Image::make($sPath);
-                $img->resize(450, 600);
+                // $img->resize(450, 600);
+                $img->fit(450, 600, function ($constraint){
+                    $constraint->upsizde();
+                });
                 $img->save($dPath);
 
 
@@ -102,7 +105,9 @@ class CategoryController extends Controller
             $category->name = $request->name;
             $category->slug = $request->slug;
             $category->status = $request->status;
-            $category->save();
+            $category->save();      
+
+            $oldImage = $category->image;
 
             // save image
             if (!empty($request->image_id)) {
@@ -110,7 +115,7 @@ class CategoryController extends Controller
                 $extArray = explode('.', $tempImage->name);
                 $ext = last($extArray);
 
-                $newImageName = $category->id.'.'.$ext;
+                $newImageName = $category->id.'-'.time().'.'.$ext;
                 $sPath = public_path().'/temp/'.$tempImage->name;
                 $dPath = public_path().'/uploads/category/'.$newImageName;
                 File::copy($sPath, $dPath);
@@ -118,12 +123,20 @@ class CategoryController extends Controller
                 // generate image thumbanil
                 $dPath = public_path().'/uploads/category/thumb/'.$newImageName;
                 $img = Image::make($sPath);
-                $img->resize(450, 600);
+                // $img->resize(450, 600);
+                $img->fit(450, 600, function ($constraint){
+                    $constraint->upsizde();
+                });
                 $img->save($dPath);
 
 
                 $category->image = $newImageName;
                 $category->save();
+
+                // delete old image
+                File::delete(public_path().'/uploads/category/thumb/'.$oldImage);
+                File::delete(public_path().'/uploads/category/'.$oldImage);
+
             }
 
             $request->session()->flash('success', 'Category berhasil diubah');
@@ -139,7 +152,22 @@ class CategoryController extends Controller
             ]);
         }
     }
-    public function destroy(){
+    public function destroy($categoryId, Request $request){
+        $category = Category::find($categoryId);
+        if(empty($category)) {
+            return redirect()->route('categories.index');
+        }
 
+        // $category
+        File::delete(public_path().'/uploads/category/thumb/'.$category->image);
+        File::delete(public_path().'/uploads/category/'.$category->image);
+
+        $request->session()->flash('success', 'Category berhasil dihapus');
+
+        $category()->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'Category berhasil dihapus'
+        ]);
     }
 }

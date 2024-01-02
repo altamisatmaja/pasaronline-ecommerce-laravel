@@ -3,6 +3,7 @@
 @section('content')
     <!DOCTYPE html>
     <html lang="en">
+
     <body class="hold-transition sidebar-mini">
         <!-- Site wrapper -->
         <div class="wrapper">
@@ -85,7 +86,7 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <a href="{{ route('categories.edit',$category->id) }}">
+                                                    <a href="{{ route('categories.edit', $category->id) }}">
                                                         <svg class="filament-link-icon w-4 h-4 mr-1"
                                                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                                             fill="currentColor" aria-hidden="true">
@@ -94,7 +95,8 @@
                                                             </path>
                                                         </svg>
                                                     </a>
-                                                    <a href="#" class="text-danger w-4 h-4 mr-1">
+                                                    <a href="#" onclick="deleteCategory({{ $category->id }})"
+                                                        class="text-danger w-4 h-4 mr-1">
                                                         <svg wire:loading.remove.delay="" wire:target=""
                                                             class="filament-link-icon w-4 h-4 mr-1"
                                                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
@@ -140,5 +142,26 @@
 @endsection
 
 @section('customJs')
-    <script></script>
+    <script>
+        function deleteCategory(id) {
+            var url = '{{ route("categories.delete", "ID") }}';
+            var newUrl = url.replace("ID", id);
+            alert(newUrl);
+            return false;
+            $.ajax({
+                url: '{{ route('categories.update', $category->id) }}',
+                type: 'put',
+                data: element.serializeArray(),
+                dataType: 'json',
+                success: function(response) {
+                    $("button[type=submit]").prop('disabled', false);
+                    if (response['status'] == true) {
+                        window.location.href = '{{ route('categories.index') }}';
+                    } else {
+                        console.log('mantap');
+                    }
+                }
+            })
+        }
+    </script>
 @endsection
